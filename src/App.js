@@ -2,36 +2,44 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  state = {
+
+state = {
     googleMap: []
   }
 
+
+
+
   componentDidMount() {
-    const url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCwOnE_44E-CRB8UtxT_7c3OEU8Nw0NrYA&callback=initMap'
 
-    $.getScript(url)
-      // if getting the script is successful
-      .done(function() {
-        initMap();
-      })
-      // if getting the script fails
-      .fail(function() {
-        mapError();
+    const fetchGoogleMaps = require('fetch-google-maps');
+
+
+    fetchGoogleMaps({
+        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
+        language: 'en',
+        libraries: ['geometry']
+    }).then(( maps ) => {
+      const map = new maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: new maps.LatLng(37.395208, -122.079159)
       });
-
-
-      let map;
-      //markers array
+      initMap(map, maps)
+    });
+      // let map;
+    //   //markers array
       let markers = [];
-
-
-      const initMap = function() {
-        const google = window.google;
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 37.395208, lng: -122.079159},
-          zoom: 14
-        });
-
+    //
+    //
+    function initMap(map, maps) {
+    // //
+      // const initMap = function() {
+         const google = window.google;
+    //   //   map = new google.maps.Map(document.getElementById('map'), {
+    //   //     center: {lat: 37.395208, lng: -122.079159},
+    //   //     zoom: 14
+    //   //   });
+    //
       let locations = [
         {title: '23 And Me', location: {lat: 37.395208, lng: -122.079159}},
         {title: 'Mountain View High School', location: {lat: 37.359605, lng: -122.066855}},
@@ -44,13 +52,7 @@ class App extends Component {
         {title: 'Philz Coffee', location: {lat: 37.377386, lng: -122.031401}},
         {title: 'Foothill College', location: {lat: 37.360278, lng: -122.126562}}
       ];
-      // foursquare
-      // let foursquare = require('react-foursquare')({
-      //   clientID: 'JFX1CBGN2IRR4LIVYALKIQRMQ0UHTDIZQL3UT2NOYLQVAAE0',
-      //   clientSecret: 'MV3PI22XZUJPISDNPG4BFGQKVGHBQCQ1RRWA2QDB4OJMWVDV'
-      // });
 
-      // let fourSquareWindowInfo = GET 'https://api.foursquare.com/v2/venues/VENUE_ID';
 
       let largeInfoWindow = new google.maps.InfoWindow();
       let bounds = new google.maps.LatLngBounds();
@@ -64,7 +66,7 @@ class App extends Component {
           animation: google.maps.Animation.DROP,
           id: i
         });
-
+      //
         markers.push(marker);
         bounds.extend(marker.position);
 
@@ -73,27 +75,32 @@ class App extends Component {
         });
       }
 
-      map.fitBounds(bounds)
+      map.fitBounds(bounds);
 
       function populateInfoWindow(marker, infowindow) {
-      if (infowindow != marker) {
+      if (infowindow !== marker) {
         infowindow.marker = marker;
         infowindow.setContent('<div>' + marker.title + '<div>');
         infowindow.open(map, marker);
-        infowindow.addListener('closeclick', function() {infowindow.setMarker(null);});
-      }
-      }
-      }
+         infowindow.addListener('closeclick', function() {infowindow.setMarker(null);});
+       }
+       }
+     };
+}
+       // const mapError = function(){
+       //   alert('Oops! Looks like something went wrong.');
+       // };
 
-      const mapError = function(){
-        alert('Oops! Looks like something went wrong.')
-      }
 
-  }
+       // foursquare
+       // let foursquare = require('react-foursquare')({
+       //   clientID: 'JFX1CBGN2IRR4LIVYALKIQRMQ0UHTDIZQL3UT2NOYLQVAAE0',
+       //   clientSecret: 'MV3PI22XZUJPISDNPG4BFGQKVGHBQCQ1RRWA2QDB4OJMWVDV'
+       // });
+
+       // let fourSquareWindowInfo = GET 'https://api.foursquare.com/v2/venues/VENUE_ID';
 
   render() {
-
-
 
     return (
       <div className="App">
