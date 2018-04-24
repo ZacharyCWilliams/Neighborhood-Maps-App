@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './Foursquare.js';
 
 class App extends Component {
 
@@ -7,13 +8,9 @@ state = {
     googleMap: []
   }
 
-
-
-
   componentDidMount() {
 
     const fetchGoogleMaps = require('fetch-google-maps');
-
 
     fetchGoogleMaps({
         apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
@@ -22,24 +19,18 @@ state = {
     }).then(( maps ) => {
       const map = new maps.Map(document.getElementById('map'), {
           zoom: 14,
-          center: new maps.LatLng(37.395208, -122.079159)
+          center: new maps.LatLng(37.395208, -122.079159),
+          styles: [{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#cfa406"}]},{"featureType":"landscape.natural","elementType":"all","stylers":[{"color":"#948f94"}]}]
       });
       initMap(map, maps)
     });
-      // let map;
-    //   //markers array
+
       let markers = [];
-    //
-    //
+
     function initMap(map, maps) {
-    // //
-      // const initMap = function() {
-         const google = window.google;
-    //   //   map = new google.maps.Map(document.getElementById('map'), {
-    //   //     center: {lat: 37.395208, lng: -122.079159},
-    //   //     zoom: 14
-    //   //   });
-    //
+
+      const google = window.google;
+      
       let locations = [
         {title: '23 And Me', location: {lat: 37.395208, lng: -122.079159}},
         {title: 'Mountain View High School', location: {lat: 37.359605, lng: -122.066855}},
@@ -80,7 +71,7 @@ state = {
       function populateInfoWindow(marker, infowindow) {
       if (infowindow !== marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '<div>');
+        infowindow.setContent('<div>' + {<Foursquare />} + '<div>');
         infowindow.open(map, marker);
          infowindow.addListener('closeclick', function() {infowindow.setMarker(null);});
        }
@@ -90,15 +81,6 @@ state = {
        // const mapError = function(){
        //   alert('Oops! Looks like something went wrong.');
        // };
-
-
-       // foursquare
-       // let foursquare = require('react-foursquare')({
-       //   clientID: 'JFX1CBGN2IRR4LIVYALKIQRMQ0UHTDIZQL3UT2NOYLQVAAE0',
-       //   clientSecret: 'MV3PI22XZUJPISDNPG4BFGQKVGHBQCQ1RRWA2QDB4OJMWVDV'
-       // });
-
-       // let fourSquareWindowInfo = GET 'https://api.foursquare.com/v2/venues/VENUE_ID';
 
   render() {
 
