@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOMServer from 'react-dom/server';
+import ReactDOM from 'react-dom';
 import './App.css';
-import './Foursquare.js';
+import Foursquare from './Foursquare.js';
 
 class App extends Component {
 
@@ -11,6 +13,7 @@ state = {
   componentDidMount() {
 
     const fetchGoogleMaps = require('fetch-google-maps');
+
 
     fetchGoogleMaps({
         apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
@@ -24,13 +27,20 @@ state = {
       });
       initMap(map, maps)
     });
-
+      // let map;
+    //   //markers array
       let markers = [];
-
+    //
+    //
     function initMap(map, maps) {
-
-      const google = window.google;
-      
+    // //
+      // const initMap = function() {
+         const google = window.google;
+    //   //   map = new google.maps.Map(document.getElementById('map'), {
+    //   //     center: {lat: 37.395208, lng: -122.079159},
+    //   //     zoom: 14
+    //   //   });
+    //
       let locations = [
         {title: '23 And Me', location: {lat: 37.395208, lng: -122.079159}},
         {title: 'Mountain View High School', location: {lat: 37.359605, lng: -122.066855}},
@@ -71,9 +81,12 @@ state = {
       function populateInfoWindow(marker, infowindow) {
       if (infowindow !== marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + {<Foursquare />} + '<div>');
+        let passDownParams = infowindow.marker.position;
+        console.log('passDownParams in app component: ', passDownParams)
+        let foursquareComponentTest = ReactDOMServer.renderToString(<Foursquare thisIsATest={passDownParams}/>);
+        infowindow.setContent('<div id=infowindowDiv>' + foursquareComponentTest  + '</div>');
         infowindow.open(map, marker);
-         infowindow.addListener('closeclick', function() {infowindow.setMarker(null);});
+         infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
        }
        }
      };
