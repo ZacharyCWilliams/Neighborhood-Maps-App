@@ -4,8 +4,8 @@ import './App.css';
 
 
 var foursquare = require('react-foursquare')({
-  clientID: 'JFX1CBGN2IRR4LIVYALKIQRMQ0UHTDIZQL3UT2NOYLQVAAE0',
-  clientSecret: 'MV3PI22XZUJPISDNPG4BFGQKVGHBQCQ1RRWA2QDB4OJMWVDV'
+  clientID: 'redacted',
+  clientSecret: 'redacted'
 });
 
 // var params = [
@@ -37,18 +37,24 @@ class Foursquare extends Component {
   constructor(props) {
      super(props);
      this.state = {
-       items: []
+       items: [],
+       latlng: {'ll': this.props.lattitude.toString() + ',' + this.props.longitude.toString(),
+     'query': this.props.titleQuery}
      };
    }
 
   componentDidMount() {
-    foursquare.venues.getVenues(this.props.thisIsATest)
+    console.log('we are now inside componentDidMount')
+    foursquare.venues.getVenues(this.state.latlng)
       .then(res=> {
+        console.log(res);
         this.setState({ items: res.response.venues });
+        console.log('items: ', this.state.items);
       });
   }
 
   render() {
+    console.log(this.state.latlng);
     return (
     <div>
         { this.state.items.map(item=> { return <div key={item.id}>{item.name}</div>}) }
