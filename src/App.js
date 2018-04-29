@@ -81,9 +81,10 @@ state = {
       function populateInfoWindow(marker, infowindow) {
       if (infowindow !== marker) {
         infowindow.marker = marker;
-        let passDownParams = infowindow.marker.position;
-        console.log('passDownParams in app component: ', passDownParams)
-        let foursquareComponentTest = ReactDOMServer.renderToString(<Foursquare thisIsATest={passDownParams}/>);
+        let passDownParams = marker.position.lat();
+        let passDownLng = marker.position.lng();
+        let markerTitle = marker.title
+        let foursquareComponentTest = ReactDOMServer.renderToString(<Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} />);
         infowindow.setContent('<div id=infowindowDiv>' + foursquareComponentTest  + '</div>');
         infowindow.open(map, marker);
          infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
