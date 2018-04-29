@@ -4,8 +4,8 @@ import './App.css';
 
 
 var foursquare = require('react-foursquare')({
-  clientID: 'redacted',
-  clientSecret: 'redacted'
+  clientID: 'JFX1CBGN2IRR4LIVYALKIQRMQ0UHTDIZQL3UT2NOYLQVAAE0',
+  clientSecret: 'MV3PI22XZUJPISDNPG4BFGQKVGHBQCQ1RRWA2QDB4OJMWVDV'
 });
 
 // var params = [
@@ -31,6 +31,9 @@ var foursquare = require('react-foursquare')({
 //   'query': 'Foothill College'}
 // ];
 
+// get JSON request of foursquare data
+
+
 
 class Foursquare extends Component {
 
@@ -53,9 +56,8 @@ class Foursquare extends Component {
       });
   }
 
-  render() {
-    console.log(this.state.latlng);
-    return (
+
+  render() { (
     <div>
         { this.state.items.map(item=> { return <div key={item.id}>{item.name}</div>}) }
     </div>
