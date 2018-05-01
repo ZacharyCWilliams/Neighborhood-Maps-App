@@ -16,7 +16,7 @@ state = {
 
 
     fetchGoogleMaps({
-        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
+        apiKey: 'redacted',
         language: 'en',
         libraries: ['geometry']
     }).then(( maps ) => {
