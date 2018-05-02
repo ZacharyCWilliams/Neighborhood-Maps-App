@@ -8,14 +8,9 @@ var foursquare = require('react-foursquare')({
   clientSecret: 'redacted'
 });
 
-let params = {
-  "ll": "37.7749,-122.4194",
-  "query": 'Blue Bottle'
-};
 let params2 = {
   'venue_id': '5560dbdb498e91a2bcde84f6'
 }
-
 
 class Foursquare extends Component {
 
@@ -25,30 +20,30 @@ class Foursquare extends Component {
        items: [],
        // state passed in from app component
        latlng: {'ll': this.props.lattitude.toString() + ',' + this.props.longitude.toString(),
-     'query': this.props.titleQuery}
-     };
+     'query': this.props.titleQuery},
+      // venue id
+      venid: { 'venue_id': this.props.theVenueID }
+    };
    }
 
 
    // make venue detail api request and set as item state
   componentDidMount() {
-    foursquare.venues.getVenue(params2)
+    foursquare.venues.getVenue(this.state.venid)
       .then(res => {
-        console.log(res)
-        rejection => console.log(rejection)
-        this.setState({ items: res.venue });
+        console.log('res: ', res)
+        this.setState({ items: res.response.venue });
+        console.log('state: ', this.state.items)
       });
   }
 
   render() {
-    console.log('foursquare.venues.getVenue: ', foursquare.venues.getVenue)
-    console.log('foursquare.venues.getVenue(params2)', foursquare.venues.getVenue(params2))
-    console.log('this.state.items: ', this.state.items)
-
     return (
     <div>
     <div ref='testin'></div>
-        { this.state.items.map(item=> { return <div key={item.id}>{item.name}</div>}) }
+      <div key={this.state.items.id}>
+      <h3>{this.state.items.name}</h3>
+      </div>
     </div>
   )
   }
