@@ -14,7 +14,6 @@ class FilterForm extends Component {
 
   componentDidMount() {
     this.setState({ value: this.props.selectors })
-    console.log('the begginning state is ', this.state.value)
   }
 
   handleFilter(event) {
