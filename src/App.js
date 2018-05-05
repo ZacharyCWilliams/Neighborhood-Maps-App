@@ -6,7 +6,6 @@ import Foursquare from './Foursquare.js';
 import FilterForm from './FilterForm.js';
 import SelectOptions from './SelectOptions';
 
-
 class App extends Component {
 
 state = {
@@ -82,23 +81,15 @@ state = {
         let passDownLng = marker.position.lng();
         let markerTitle = marker.title;
         let placeID = marker.markerID;
-        // let foursquareComponentTest = ReactDOMServer.renderToString(<Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} theVenueID={placeID}/>);
-
-        // let div = document.createElement("div");
-        // let myBigComponent = ReactDOM.render(<Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} />)
-
         let infowindowDiv = document.createElement('div');
         let foursquareStuff = <Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} theVenueID={placeID}/>;
         ReactDOM.render(foursquareStuff, infowindowDiv);
         infowindow.setContent( infowindowDiv );
-
-        // ReactDOM.render(foursquareStuff, document.getElementById('infowindowDiv'));
-        // infowindow.setContent('<div id=infowindowDiv>' + '</div>');
+          
         infowindow.open(map, marker);
          infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
        }
        }
-
 
        // filter function
          let filterFormContent = <FilterForm selectors={markers} />
