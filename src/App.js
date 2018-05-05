@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import './App.css';
 import Foursquare from './Foursquare.js';
 import FilterForm from './FilterForm.js';
-import SelectOptions from './SelectOptions';
 
 class App extends Component {
 
