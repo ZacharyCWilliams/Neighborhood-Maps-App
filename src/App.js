@@ -3,7 +3,7 @@ import ReactDOMServer from 'react-dom/server';
 import ReactDOM from 'react-dom';
 import './App.css';
 import Foursquare from './Foursquare.js';
-import FilterForm from './FilterForm.js';
+import FilterForm from './FilterForm.js';;
 
 let map;
 let markers = [];
@@ -36,7 +36,7 @@ state = {
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
     fetchGoogleMaps({
-        apiKey: 'redacted',
+        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
         language: 'en',
         libraries: ['geometry']
     }).then(( maps ) => {
@@ -97,46 +97,40 @@ state = {
 
 
     marker.addListener('click', function(){
-
-      this.populateInfoWindow(this, largeInfoWindow);
+      populateInfoWindow(this, largeInfoWindow);
     });
 
     //open and close infowindow on click + set foursquare component to infowindow content
+    function populateInfoWindow(marker, infowindow){
+      if (infowindow !== marker) {
+        infowindow.marker = marker;
 
+        let passDownParams = marker.position.lat();
+        let passDownLng = marker.position.lng();
+        let markerTitle = marker.title;
+        let placeID = marker.markerID;
+
+        let infowindowDiv = document.createElement('div');
+        let foursquareStuff = <Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} theVenueID={placeID}/>;
+        ReactDOM.render(foursquareStuff, infowindowDiv);
+        infowindow.setContent( infowindowDiv );
+
+        infowindow.open(map, marker);
+         infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
+       }
+      }
 
   }
   //make sure all markers fit on screen
   map.fitBounds(bounds);
  };
 
-populateInfoWindow(marker, infowindow){
-  if (infowindow !== marker) {
-    infowindow.marker = marker;
-
-    let passDownParams = marker.position.lat();
-    let passDownLng = marker.position.lng();
-    let markerTitle = marker.title;
-    let placeID = marker.markerID;
-
-    let infowindowDiv = document.createElement('div');
-    let foursquareStuff = <Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} theVenueID={placeID}/>;
-    ReactDOM.render(foursquareStuff, infowindowDiv);
-    infowindow.setContent( infowindowDiv );
-
-    infowindow.open(map, marker);
-     infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
-   }
-  }
-
-
-
  handleLocationClick(venueID){
   console.log(venueID);
   const clickedMarker = markers.filter((marker) => marker.markerID === venueID);
   console.log(clickedMarker[0].title);
-  // this.populateInfoWindow(clickedMarker[0]);
+  // populateInfoWindow(clickedMarker[0]);
  }
-
 
   render() {
 
