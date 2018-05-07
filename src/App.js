@@ -8,35 +8,34 @@ import FilterForm from './FilterForm.js';;
 let map;
 let markers = [];
 let marker;
-let largeInfoWindow
-
+let largeInfoWindow;
+let locationState = [
+  {title: '23 And Me', location: {lat: 37.395208, lng: -122.079159}, venueID: '4ae8903bf964a5206eb021e3'},
+  {title: 'Mountain View High School', location: {lat: 37.359605, lng: -122.066855}, venueID: '4acfcafff964a5200bd620e3'},
+  {title: 'Google', location: {lat: 37.422000, lng: -122.084057}, venueID: '50379c31e4b0be420ec1826a'},
+  {title: 'Stanford University', location: {lat: 37.427475, lng: -122.169719}, venueID: '4a983497f964a520f02a20e3'},
+  {title: 'Whole Foods', location: {lat: 37.398900, lng: -122.110727}, venueID: '49f8a2e3f964a5200d6d1fe3'},
+  {title: 'El Camino Hospital', location: {lat: 37.369124, lng: -122.079870}, venueID: '4a77b401f964a52004e51fe3'},
+  {title: 'Starbucks', location: {lat: 37.378540, lng: -122.116718}, venueID: '4740b317f964a520724c1fe3'},
+  {title: 'Stanford Dish', location: {lat: 37.408564, lng: -122.179599}, venueID: '4a8723a4f964a520cf0220e3'},
+  {title: 'Philz Coffee', location: {lat: 37.377386, lng: -122.031401}, venueID: '547e13a7498e8d4312025ce9'},
+  {title: 'Foothill College', location: {lat: 37.360278, lng: -122.126562}, venueID: '49f667e7f964a5203e6c1fe3'}
+]
 
 class App extends Component {
 
 state = {
     googleMap: [],
-    FilteredLocations: [
-      {title: '23 And Me', location: {lat: 37.395208, lng: -122.079159}, venueID: '4ae8903bf964a5206eb021e3'},
-      {title: 'Mountain View High School', location: {lat: 37.359605, lng: -122.066855}, venueID: '4acfcafff964a5200bd620e3'},
-      {title: 'Google', location: {lat: 37.422000, lng: -122.084057}, venueID: '50379c31e4b0be420ec1826a'},
-      {title: 'Stanford University', location: {lat: 37.427475, lng: -122.169719}, venueID: '4a983497f964a520f02a20e3'},
-      {title: 'Whole Foods', location: {lat: 37.398900, lng: -122.110727}, venueID: '49f8a2e3f964a5200d6d1fe3'},
-      {title: 'El Camino Hospital', location: {lat: 37.369124, lng: -122.079870}, venueID: '4a77b401f964a52004e51fe3'},
-      {title: 'Starbucks', location: {lat: 37.378540, lng: -122.116718}, venueID: '4740b317f964a520724c1fe3'},
-      {title: 'Stanford Dish', location: {lat: 37.408564, lng: -122.179599}, venueID: '4a8723a4f964a520cf0220e3'},
-      {title: 'Philz Coffee', location: {lat: 37.377386, lng: -122.031401}, venueID: '547e13a7498e8d4312025ce9'},
-      {title: 'Foothill College', location: {lat: 37.360278, lng: -122.126562}, venueID: '49f667e7f964a5203e6c1fe3'}
-    ]
+    FilteredLocations: locationState
   }
 
   componentDidMount() {
-
     //http://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
     //https://www.npmjs.com/package/fetch-google-maps
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
     fetchGoogleMaps({
-        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
+        apiKey: 'redacted',
         language: 'en',
         libraries: ['geometry']
     }).then(( maps ) => {
@@ -47,19 +46,14 @@ state = {
       });
       this.initMap(map, maps)
     });
-
-    //create map, map markers, and infowindows
-
-
      //if the map error's out push an alert to user that something went wrong
      function handleError(google) {
        if (google.error){
            alert('Oops! Looks like something went wrong.');
        }
      }
-
 }
-
+//create map, map markers, and infowindows
  initMap(map, maps) {
 
   const google = window.google;
@@ -95,41 +89,49 @@ state = {
     markers.push(marker);
     bounds.extend(marker.position);
 
-
-    marker.addListener('click', function(){
-      populateInfoWindow(this, largeInfoWindow);
+    marker.addListener('click', () => {
+      this.populateInfoWindow(marker, largeInfoWindow);
     });
-
-    //open and close infowindow on click + set foursquare component to infowindow content
-    function populateInfoWindow(marker, infowindow){
-      if (infowindow !== marker) {
-        infowindow.marker = marker;
-
-        let passDownParams = marker.position.lat();
-        let passDownLng = marker.position.lng();
-        let markerTitle = marker.title;
-        let placeID = marker.markerID;
-
-        let infowindowDiv = document.createElement('div');
-        let foursquareStuff = <Foursquare lattitude={passDownParams} longitude={passDownLng} titleQuery={markerTitle} theVenueID={placeID}/>;
-        ReactDOM.render(foursquareStuff, infowindowDiv);
-        infowindow.setContent( infowindowDiv );
-
-        infowindow.open(map, marker);
-         infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
-       }
-      }
-
   }
-  //make sure all markers fit on screen
+  // make sure all markers fit on screen
   map.fitBounds(bounds);
  };
 
- handleLocationClick(venueID){
+ // open and close infowindow on click + set foursquare component to infowindow content
+ populateInfoWindow(marker, infowindow){
+   if (infowindow !== marker) {
+     infowindow.marker = marker;
+     let markerLat = marker.position.lat();
+     let markerLon = marker.position.lng();
+     let markerTitle = marker.title;
+     let placeID = marker.markerID;
+
+     let infowindowDiv = document.createElement('div');
+     let foursquareStuff = <Foursquare lattitude={markerLat} longitude={markerLon} titleQuery={markerTitle} theVenueID={placeID}/>;
+     ReactDOM.render(foursquareStuff, infowindowDiv);
+     infowindow.setContent( infowindowDiv );
+
+     infowindow.open(map, marker);
+      infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
+    }
+   }
+  // Filter menu options on text input
+  handleTextFilter(event){
+    let initialState = this.state.FilteredLocations
+    console.log(initialState)
+    let updatedState = initialState.filter(thisVenue => {
+       return thisVenue.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1
+    })
+    this.setState(prevState => ({ FilteredLocations: updatedState}))
+    console.log(updatedState)
+    console.log(event.target.value)
+  }
+// Activate Info Window on menu click
+ handleLocationClick(venueID) {
   console.log(venueID);
   const clickedMarker = markers.filter((marker) => marker.markerID === venueID);
   console.log(clickedMarker[0].title);
-  // populateInfoWindow(clickedMarker[0]);
+  // this.populateInfoWindow(clickedMarker[0]);
  }
 
   render() {
@@ -140,7 +142,7 @@ state = {
           <h1 className="App-title">Neighborhood Maps Project</h1>
         </header>
         <div id='map'></div>
-        <FilterForm FilteredLocations={this.state.FilteredLocations} handleLocationClick={this.handleLocationClick} />
+        <FilterForm FilteredLocations={this.state.FilteredLocations} handleTextFilter={this.handleTextFilter.bind(this)} handleLocationClick={this.handleLocationClick} />
       </div>
     );
   }
