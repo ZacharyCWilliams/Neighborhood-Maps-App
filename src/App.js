@@ -5,6 +5,7 @@ import './App.css';
 import Foursquare from './Foursquare.js';
 import FilterForm from './FilterForm.js';;
 
+let _this;
 let map;
 let markers = [];
 let marker;
@@ -26,10 +27,13 @@ class App extends Component {
 
 state = {
     googleMap: [],
-    FilteredLocations: locationState
+    initialLocations: locationState,
+    filteredLocations: []
   }
 
+
   componentDidMount() {
+    _this = this
     //http://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
     //https://www.npmjs.com/package/fetch-google-maps
     const fetchGoogleMaps = require('fetch-google-maps');
@@ -55,7 +59,6 @@ state = {
 }
 //create map, map markers, and infowindows
  initMap(map, maps) {
-
   const google = window.google;
 
   let locations = [
@@ -71,7 +74,7 @@ state = {
     {title: 'Foothill College', location: {lat: 37.360278, lng: -122.126562}, venueID: '49f667e7f964a5203e6c1fe3'}
   ];
 
-  let largeInfoWindow = new google.maps.InfoWindow();
+  largeInfoWindow = new google.maps.InfoWindow();
   let bounds = new google.maps.LatLngBounds();
   for (let i = 0; i < locations.length; i++) {
     let position = locations[i].location;
@@ -117,21 +120,19 @@ state = {
    }
   // Filter menu options on text input
   handleTextFilter(event){
-    let initialState = this.state.FilteredLocations
+    let initialState = this.state.initialLocations
     console.log(initialState)
     let updatedState = initialState.filter(thisVenue => {
        return thisVenue.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1
     })
-    this.setState(prevState => ({ FilteredLocations: updatedState}))
+    this.setState(prevState => ({ initialLocations: updatedState}))
     console.log(updatedState)
     console.log(event.target.value)
   }
 // Activate Info Window on menu click
  handleLocationClick(venueID) {
-  console.log(venueID);
   const clickedMarker = markers.filter((marker) => marker.markerID === venueID);
-  console.log(clickedMarker[0].title);
-  // this.populateInfoWindow(clickedMarker[0]);
+  _this.populateInfoWindow(clickedMarker[0], largeInfoWindow);
  }
 
   render() {
@@ -142,7 +143,7 @@ state = {
           <h1 className="App-title">Neighborhood Maps Project</h1>
         </header>
         <div id='map'></div>
-        <FilterForm FilteredLocations={this.state.FilteredLocations} handleTextFilter={this.handleTextFilter.bind(this)} handleLocationClick={this.handleLocationClick} />
+        <FilterForm FilteredLocations={this.state.initialLocations} handleTextFilter={this.handleTextFilter.bind(this)} handleLocationClick={this.handleLocationClick} />
       </div>
     );
   }
