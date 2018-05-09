@@ -12,4 +12,4 @@ More on 3 here: https://github.com/foursquare/react-foursquare/blob/master/READM
 4. run npm install fetch-google-maps --save
 More on 4 here: https://www.npmjs.com/package/fetch-google-maps
 
-5. I have redacted my api keys
+5. API keys will be redacted upon completed review
