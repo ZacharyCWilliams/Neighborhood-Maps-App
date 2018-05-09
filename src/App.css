@@ -1,5 +1,6 @@
-.App {
+ .App {
   text-align: center;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -8,14 +9,14 @@
 }
 
 .App-header {
-  background-color: #222;
   height: 60px;
-  padding: 20px;
-  color: white;
+  padding: 10px;
+  color: #f6f6f6;
 }
 
 .App-title {
   font-size: 1.5em;
+  color: black;
 }
 
 .App-intro {
@@ -41,7 +42,6 @@
     font-size: 16px; /* Increase font-size */
     padding: 12px 20px 12px 40px; /* Add some padding */
     border: 1px solid #ddd; /* Add a grey border */
-    margin-bottom: 12px; /* Add some space below the input */
 }
 
 #myUL {
