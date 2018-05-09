@@ -28,7 +28,7 @@ class App extends Component {
 state = {
     googleMap: [],
     initialLocations: locationState,
-    filteredLocations: []
+    filteredLocations: locationState
   }
 
 
@@ -39,7 +39,7 @@ state = {
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
     fetchGoogleMaps({
-        apiKey: 'redacted',
+        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
         language: 'en',
         libraries: ['geometry']
     }).then(( maps ) => {
@@ -125,7 +125,7 @@ state = {
     let updatedState = initialState.filter(thisVenue => {
        return thisVenue.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1
     })
-    this.setState(prevState => ({ initialLocations: updatedState}))
+    this.setState(prevState => ({ filteredLocations: updatedState}))
     console.log(updatedState)
     console.log(event.target.value)
   }
@@ -143,7 +143,7 @@ state = {
           <h1 className="App-title">Neighborhood Maps Project</h1>
         </header>
         <div id='map'></div>
-        <FilterForm FilteredLocations={this.state.initialLocations} handleTextFilter={this.handleTextFilter.bind(this)} handleLocationClick={this.handleLocationClick} />
+        <FilterForm FilteredLocations={this.state.filteredLocations} handleTextFilter={this.handleTextFilter.bind(this)} handleLocationClick={this.handleLocationClick} />
       </div>
     );
   }
