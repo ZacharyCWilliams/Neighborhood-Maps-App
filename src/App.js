@@ -28,8 +28,10 @@ class App extends Component {
 state = {
     googleMap: [],
     initialLocations: locationState,
-    filteredLocations: locationState
+    filteredLocations: locationState,
+    markerIdentification: null
   }
+
 
   componentDidMount() {
     _this = this
@@ -38,7 +40,7 @@ state = {
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
     fetchGoogleMaps({
-        apiKey: 'redacted',
+        apiKey: 'AIzaSyC7uYChVm0w8cDKMlGmon0XbJDUiiBBc4g',
         language: 'en',
         libraries: ['geometry']
     }).then(( maps ) => {
@@ -48,13 +50,9 @@ state = {
           styles: [{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#cfa406"}]},{"featureType":"landscape.natural","elementType":"all","stylers":[{"color":"#948f94"}]}]
       });
       this.initMap(map, maps)
+    }).catch(err => {
+      alert(err)
     });
-     //if the map error's out push an alert to user that something went wrong
-     function handleError(google) {
-       if (google.error){
-           alert('Oops! Looks like something went wrong.');
-       }
-     }
 }
 //create map, map markers, and infowindows
  initMap(map, maps) {
@@ -108,7 +106,6 @@ state = {
   // Filter menu options on text input
   handleTextFilter(event){
     let initialState = this.state.initialLocations
-    console.log(initialState)
     let updatedState = initialState.filter(thisVenue => {
        return thisVenue.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1
     })
@@ -121,19 +118,32 @@ state = {
  }
 
   render() {
-
+// before rendering check filtered state for map markers
+    let markersToShow = []
+    let markersToHide = []
     let renderMarkers = markers
     let renderedLocations = this.state.filteredLocations
-
-    renderMarkers.forEach( mark => {
-      for (let a = 0; a < renderedLocations.length; a++) {
-        if (mark.markerID === renderedLocations[a].venueID) {
-          mark.setVisible(true)
-        } else if (mark.markerID !== renderedLocations[a].venueID) {
-          mark.setVisible(false)
+    let moveThisID = []
+    renderedLocations.map(location => {
+       moveThisID.push(location.venueID)})
+// loop through lists and display/hide corresponding markers
+    for (let t = 0; t < moveThisID.length; t++) {
+      for (let p = 0; p < renderMarkers.length; p++) {
+        if (moveThisID[t] === renderMarkers[p].markerID) {
+          markersToShow.push(renderMarkers[p])
+          markersToShow.forEach(mark => {
+            mark.setVisible(true)
+          });
+        } else if (moveThisID[t] !== renderMarkers[p].markerID) {
+            markersToHide.push(renderMarkers[p])
+            markersToHide.forEach(mark => {
+            mark.setVisible(false)
+          });
+          } else {
+            alert('oops! that didn\'t work')
+          }
         }
       }
-    })
 
     return (
       <div className="App">
