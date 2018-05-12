@@ -5,10 +5,10 @@ import './App.css';
 function FilterForm(props){
 
     let locationsList = props.FilteredLocations.map((location) =>
-	<li className="myLi" key={location.venueID} onClick={()=> props.handleLocationClick(location.venueID)}><a>{location.title}</a></li>
+	<li className="myLi" tabIndex="0" key={location.venueID} onClick={()=> props.handleLocationClick(location.venueID)}><a>{location.title}</a></li>
 	);
-
-    return (
+    
+return (
       <div>
       <form>
         <label>
