@@ -3,7 +3,6 @@ import './App.css';
 
 
 function FilterForm(props){
-
     let locationsList = props.FilteredLocations.map((location) =>
 	<li className="myLi" tabIndex="0" key={location.venueID} onClick={()=> props.handleLocationClick(location.venueID)}><a>{location.title}</a></li>
 	);
