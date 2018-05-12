@@ -27,9 +27,9 @@ https://www.npmjs.com/package/fetch-google-maps
 
 2. CD into project folder
 
-3. Install React Foursquare library by running ```run npm install -i react-foursquare```
+3. Install React Foursquare Library: ```npm install -i react-foursquare```
 
-4. Install Google Maps Fetch library by running ```run npm install fetch-google-maps --save```
+4. Install Google Maps Fetch Library: ```npm install fetch-google-maps --save```
 
 ## Service Worker
 
