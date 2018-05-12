@@ -32,7 +32,6 @@ state = {
     markerIdentification: null
   }
 
-
   componentDidMount() {
     _this = this
     //http://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
@@ -57,9 +56,7 @@ state = {
 //create map, map markers, and infowindows
  initMap(map, maps) {
   const google = window.google;
-
   let locations = this.state.filteredLocations
-
   largeInfoWindow = new google.maps.InfoWindow();
   let bounds = new google.maps.LatLngBounds();
   for (let i = 0; i < locations.length; i++) {
