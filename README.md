@@ -39,6 +39,15 @@ https://www.npmjs.com/package/fetch-google-maps
 
 This project was created using create-react-app. Please run the project in production mode so that the service worker works properly!
 
+## Deploy In Development Mode
+
+1. CD into project folder
+
+2. run ```npm install```
+
+3. run ```npm start```
+
+
 ## Deploy To Production
 
 
