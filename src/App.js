@@ -32,6 +32,7 @@ state = {
     markerIdentification: null
   }
 
+
   componentDidMount() {
     _this = this
     //http://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
@@ -78,6 +79,7 @@ state = {
     bounds.extend(marker.position);
 
     marker.addListener('click', () => {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
       this.populateInfoWindow(marker, largeInfoWindow);
     });
   }
