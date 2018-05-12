@@ -46,7 +46,9 @@ This project was created using create-react-app. Please run the project in produ
 
 ## Deploy To Production
 
+1. CD into project folder
 
+2. run ```npm run build```
 
 ## Note
 
