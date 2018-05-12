@@ -32,7 +32,6 @@ state = {
     markerIdentification: null
   }
 
-
   componentDidMount() {
     _this = this
     //http://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
