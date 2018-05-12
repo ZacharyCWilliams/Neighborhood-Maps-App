@@ -4,7 +4,7 @@ This project is a single page application featuring a map of my neighborhood. I 
 
 ## Getting Started
 
-This project was built using create-react-app. Please run the project in production mode to ensure the service worker works properly!
+This project was created using create-react-app. Please run the project in production mode to ensure the service worker works properly!
 
 ## Prerequisite Information
 
