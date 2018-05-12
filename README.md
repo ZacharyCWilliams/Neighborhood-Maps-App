@@ -23,7 +23,7 @@ https://www.npmjs.com/package/fetch-google-maps
 
 ## Installing
 
-1. Clone repo
+1. Download or Clone repo
 
 2. CD into project folder
 
