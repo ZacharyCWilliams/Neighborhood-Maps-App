@@ -26,6 +26,8 @@ class Foursquare extends Component {
     foursquare.venues.getVenue(this.state.venid)
       .then(res => {
         this.setState({ items: res.response.venue });
+      }).catch(err => {
+        alert(err)
       });
   }
 
