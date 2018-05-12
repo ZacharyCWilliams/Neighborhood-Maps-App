@@ -98,7 +98,10 @@ state = {
      infowindow.setContent( infowindowDiv );
 
      infowindow.open(map, marker);
-      infowindow.addListener('closeclick', function() {infowindow.setContent(null);});
+      infowindow.addListener('closeclick', function() {
+        infowindow.setContent(null);
+        marker.setAnimation(null);
+      });
     }
    }
   // Filter menu options on text input
